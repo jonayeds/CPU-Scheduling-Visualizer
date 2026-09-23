@@ -29,7 +29,10 @@ export default function ComparisonTurnaroundChart({
   results,
 }: ComparisonTurnaroundChartProps) {
   const entries = Object.entries(results);
-  const processes = entries[0]?.[1].results ?? [];
+  const processes = [...(entries[0]?.[1].results ?? [])].sort(
+    (first, second) =>
+      Number(first.id.replace(/^P/i, "")) - Number(second.id.replace(/^P/i, ""))
+  );
 
   const chartData = processes.map((process, index) => {
     const point: Record<string, string | number> = {
@@ -37,7 +40,8 @@ export default function ComparisonTurnaroundChart({
     };
 
     entries.forEach(([algorithm, result]) => {
-      point[algorithm] = result.results[index]?.turnaroundTime ?? 0;
+      point[algorithm] =
+        result.results.find((item) => item.id === process.id)?.turnaroundTime ?? 0;
     });
 
     return point;
