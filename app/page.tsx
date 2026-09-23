@@ -58,7 +58,7 @@ export default function HomePage() {
 
           <Link
             href="/simulate"
-            className="rounded-none border-4 border-black bg-primary-highlight px-5 py-3 text-base font-bold uppercase tracking-tight text-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all active:translate-x-[5px] active:translate-y-[5px] active:shadow-none sm:px-8 sm:py-4 sm:text-xl"
+            className="rounded-none border-4 border-black bg-primary-highlight px-5 py-3 text-base font-bold uppercase tracking-tight text-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all active:translate-x-1.25 active:translate-y-1.25 active:shadow-none sm:px-8 sm:py-4 sm:text-xl"
           >
             Start Simulation
           </Link>

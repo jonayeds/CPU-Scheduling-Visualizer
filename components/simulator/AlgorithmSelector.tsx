@@ -1,5 +1,4 @@
-import React from "react";
-import NeobrutalistButton from "./NeobrutalistButton";
+
 
 interface AlgorithmSelectorProps {
   selectedAlgorithm: string;
@@ -26,7 +25,7 @@ export default function AlgorithmSelector({
           className={`
             p-4 border-4 border-black transition-all text-left
             ${selectedAlgorithm === algo.id
-              ? "bg-primary-highlight shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-[-2px] translate-y-[-2px]"
+              ? "bg-primary-highlight shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-0.5 -translate-y-0.5"
               : "bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-secondary-highlight/20"}
           `}
         >

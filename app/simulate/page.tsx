@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import AlgorithmSelector from "@/components/simulator/AlgorithmSelector";
 import ProcessRow from "@/components/simulator/ProcessRow";
 import NeobrutalistButton from "@/components/simulator/NeobrutalistButton";
 import NeobrutalistInput from "@/components/simulator/NeobrutalistInput";
 import GanttChart from "@/components/simulator/GanttChart";
-import type { GanttBlock } from "@/components/simulator/GanttChart";
 import ResultTable from "@/components/simulator/ResultTable";
 import SimulationStats from "@/components/simulator/SimulationStats";
 import { runFcfs } from "./algorithms/fcfs";
+import { runSjf } from "./algorithms/sjf";
 import type { SimulationResult } from "./algorithms/fcfs";
 
 interface Process {
@@ -50,6 +50,8 @@ export default function SimulatePage() {
   const handleRun = () => {
     if (algorithm === "FCFS") {
       setSimulationData(runFcfs(processes));
+    } else if (algorithm === "SJF") {
+      setSimulationData(runSjf(processes));
     }
   };
 
