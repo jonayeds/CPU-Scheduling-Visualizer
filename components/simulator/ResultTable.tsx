@@ -4,6 +4,7 @@ export interface ProcessResult {
   id: string;
   arrivalTime: number;
   burstTime: number;
+  priority?: number;
   completionTime: number;
   turnaroundTime: number;
   waitingTime: number;
@@ -11,9 +12,10 @@ export interface ProcessResult {
 
 interface ResultTableProps {
   results: ProcessResult[];
+  showPriority?: boolean;
 }
 
-export default function ResultTable({ results }: ResultTableProps) {
+export default function ResultTable({ results, showPriority = false }: ResultTableProps) {
   if (results.length === 0) return null;
 
   return (
@@ -24,6 +26,11 @@ export default function ResultTable({ results }: ResultTableProps) {
             <th className="border-r-4 border-black p-3 text-left font-display font-bold uppercase text-sm">Process</th>
             <th className="border-r-4 border-black p-3 text-center font-display font-bold uppercase text-sm">AT</th>
             <th className="border-r-4 border-black p-3 text-center font-display font-bold uppercase text-sm">BT</th>
+            {showPriority && (
+              <th className="border-r-4 border-black p-3 text-center font-display font-bold uppercase text-sm">
+                Priority
+              </th>
+            )}
             <th className="border-r-4 border-black p-3 text-center font-display font-bold uppercase text-sm">CT</th>
             <th className="border-r-4 border-black p-3 text-center font-display font-bold uppercase text-sm">TAT</th>
             <th className="border-r-4 border-black p-3 text-center font-display font-bold uppercase text-sm">WT</th>
@@ -35,6 +42,9 @@ export default function ResultTable({ results }: ResultTableProps) {
               <td className="border-r-4 border-black p-3 font-display font-bold">{res.id}</td>
               <td className="border-r-4 border-black p-3 text-center font-body">{res.arrivalTime}</td>
               <td className="border-r-4 border-black p-3 text-center font-body">{res.burstTime}</td>
+              {showPriority && (
+                <td className="border-r-4 border-black p-3 text-center font-body">{res.priority}</td>
+              )}
               <td className="border-r-4 border-black p-3 text-center font-body">{res.completionTime}</td>
               <td className="border-r-4 border-black p-3 text-center font-body">{res.turnaroundTime}</td>
               <td className="border-r-4 border-black p-3 text-center font-body">{res.waitingTime}</td>

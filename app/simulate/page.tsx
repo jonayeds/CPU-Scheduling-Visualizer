@@ -10,6 +10,7 @@ import ResultTable from "@/components/simulator/ResultTable";
 import SimulationStats from "@/components/simulator/SimulationStats";
 import { runFcfs } from "./algorithms/fcfs";
 import { runSjf } from "./algorithms/sjf";
+import { runPriority } from "./algorithms/priority";
 import type { SimulationResult } from "./algorithms/fcfs";
 
 interface Process {
@@ -52,6 +53,8 @@ export default function SimulatePage() {
       setSimulationData(runFcfs(processes));
     } else if (algorithm === "SJF") {
       setSimulationData(runSjf(processes));
+    } else if (algorithm === "PRIORITY") {
+      setSimulationData(runPriority(processes));
     }
   };
 
@@ -153,7 +156,10 @@ export default function SimulatePage() {
 
               <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <h3 className="font-display text-2xl font-bold mb-6">Results Table</h3>
-                <ResultTable results={simulationData.results} />
+                <ResultTable
+                  results={simulationData.results}
+                  showPriority={algorithm === "PRIORITY"}
+                />
               </div>
 
               <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
