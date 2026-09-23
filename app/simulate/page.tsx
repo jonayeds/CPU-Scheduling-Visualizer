@@ -11,6 +11,7 @@ import SimulationStats from "@/components/simulator/SimulationStats";
 import { runFcfs } from "./algorithms/fcfs";
 import { runSjf } from "./algorithms/sjf";
 import { runPriority } from "./algorithms/priority";
+import { runRoundRobin } from "./algorithms/roundRobin";
 import type { SimulationResult } from "./algorithms/fcfs";
 
 interface Process {
@@ -24,16 +25,20 @@ export default function SimulatePage() {
   const [algorithm, setAlgorithm] = useState("FCFS");
   const [timeQuantum, setTimeQuantum] = useState("2");
   const [processes, setProcesses] = useState<Process[]>([
-    { id: crypto.randomUUID(), arrivalTime: "0", burstTime: "5", priority: "1" },
-    { id: crypto.randomUUID(), arrivalTime: "1", burstTime: "3", priority: "2" },
+    { id: "1", arrivalTime: "0", burstTime: "5", priority: "1" },
+    { id: "2", arrivalTime: "1", burstTime: "3", priority: "2" },
   ]);
 
   const [simulationData, setSimulationData] = useState<SimulationResult | null>(null);
 
   const addProcess = () => {
+    const nextId = String(
+      Math.max(0, ...processes.map((process) => Number(process.id) || 0)) + 1
+    );
+
     setProcesses([
       ...processes,
-      { id: crypto.randomUUID(), arrivalTime: "0", burstTime: "1", priority: "1" },
+      { id: nextId, arrivalTime: "0", burstTime: "1", priority: "1" },
     ]);
   };
 
@@ -55,6 +60,8 @@ export default function SimulatePage() {
       setSimulationData(runSjf(processes));
     } else if (algorithm === "PRIORITY") {
       setSimulationData(runPriority(processes));
+    } else if (algorithm === "RR") {
+      setSimulationData(runRoundRobin(processes, timeQuantum));
     }
   };
 
@@ -167,7 +174,7 @@ export default function SimulatePage() {
                 <SimulationStats
                   avgWaiting={simulationData.stats.avgWaiting}
                   avgTurnaround={simulationData.stats.avgTurnaround}
-                  avgIdle={simulationData.stats.avgIdle}
+                  totalIdle={simulationData.stats.totalIdle}
                 />
               </div>
             </div>

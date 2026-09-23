@@ -14,7 +14,7 @@ export interface SimulationResult {
   stats: {
     avgWaiting: number;
     avgTurnaround: number;
-    avgIdle: number;
+    totalIdle: number;
   };
 }
 
@@ -38,7 +38,7 @@ export function runFcfs(processes: SchedulingProcess[]): SimulationResult {
   const results: ProcessResult[] = [];
 
   orderedProcesses.forEach((process, index) => {
-    const processLabel = `P${process.id.slice(0, 4)}`;
+    const processLabel = `P${process.id}`;
 
     if (currentTime < process.arrivalTime) {
       gantt.push({
@@ -84,7 +84,7 @@ export function runFcfs(processes: SchedulingProcess[]): SimulationResult {
       avgWaiting: results.reduce((total, result) => total + result.waitingTime, 0) / processCount,
       avgTurnaround:
         results.reduce((total, result) => total + result.turnaroundTime, 0) / processCount,
-      avgIdle: idleTime / processCount,
+      totalIdle: idleTime,
     },
   };
 }

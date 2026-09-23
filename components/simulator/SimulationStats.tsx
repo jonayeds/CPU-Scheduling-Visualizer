@@ -3,14 +3,14 @@ import React from "react";
 interface StatsProps {
   avgWaiting: number;
   avgTurnaround: number;
-  avgIdle: number;
+  totalIdle: number;
 }
 
-export default function SimulationStats({ avgWaiting, avgTurnaround, avgIdle }: StatsProps) {
+export default function SimulationStats({ avgWaiting, avgTurnaround, totalIdle }: StatsProps) {
   const stats = [
     { label: "Avg Waiting Time", value: avgWaiting, color: "bg-primary-highlight" },
     { label: "Avg Turnaround Time", value: avgTurnaround, color: "bg-secondary-highlight" },
-    { label: "Avg Idle Time", value: avgIdle, color: "bg-white" },
+    { label: "Total Idle Time", value: totalIdle, color: "bg-white" },
   ];
 
   return (

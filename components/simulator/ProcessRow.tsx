@@ -23,7 +23,7 @@ export default function ProcessRow({
       className={`grid ${isPriorityEnabled ? "grid-cols-12" : "grid-cols-9"} gap-4 items-center py-3 border-b-4 border-black/10 last:border-b-0`}
     >
       <div className="col-span-2 font-body font-bold text-center">
-        P{process.id.slice(0, 4)}
+        P{process.id}
       </div>
       <div className="col-span-3">
         <NeobrutalistInput

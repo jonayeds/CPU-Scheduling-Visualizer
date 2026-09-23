@@ -53,7 +53,7 @@ export function runSjf(processes: SchedulingProcess[]): SimulationResult {
     const processIndex = pendingProcesses.indexOf(nextProcess);
     pendingProcesses.splice(processIndex, 1);
 
-    const processLabel = `P${nextProcess.id.slice(0, 4)}`;
+    const processLabel = `P${nextProcess.id}`;
     const startTime = currentTime;
     const completionTime = startTime + nextProcess.burstTime;
     const turnaroundTime = completionTime - nextProcess.arrivalTime;
@@ -88,7 +88,7 @@ export function runSjf(processes: SchedulingProcess[]): SimulationResult {
       avgWaiting: results.reduce((total, result) => total + result.waitingTime, 0) / processCount,
       avgTurnaround:
         results.reduce((total, result) => total + result.turnaroundTime, 0) / processCount,
-      avgIdle: idleTime / processCount,
+      totalIdle: idleTime,
     },
   };
 }
