@@ -9,7 +9,7 @@ import roundShape from "@/assets/doodles/doodle_round_shape.png";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-[calc(100svh-73px)] w-full overflow-hidden bg-background flex items-center justify-center px-4 py-6 md:min-h-[calc(100svh-69px)] md:p-8">
+    <main className="relative min-h-[calc(100svh-73px)] w-full overflow-hidden bg-background flex items-center justify-center px-4 py-6 md:min-h-[calc(100svh-73px)] md:p-8">
       {/* --- Doodle Assets --- */}
 
       {/* Top Left: Cloud */}
