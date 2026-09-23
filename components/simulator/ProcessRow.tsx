@@ -3,7 +3,11 @@ import NeobrutalistInput from "./NeobrutalistInput";
 
 interface ProcessRowProps {
   process: { id: string; arrivalTime: string; burstTime: string; priority: string };
-  updateProcess: (id: string, field: string, value: string) => void;
+  updateProcess: (
+    id: string,
+    field: "arrivalTime" | "burstTime" | "priority",
+    value: string
+  ) => void;
   removeProcess: (id: string) => void;
   isPriorityEnabled: boolean;
 }

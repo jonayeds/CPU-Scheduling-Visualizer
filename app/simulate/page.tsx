@@ -5,6 +5,12 @@ import AlgorithmSelector from "@/components/simulator/AlgorithmSelector";
 import ProcessRow from "@/components/simulator/ProcessRow";
 import NeobrutalistButton from "@/components/simulator/NeobrutalistButton";
 import NeobrutalistInput from "@/components/simulator/NeobrutalistInput";
+import GanttChart from "@/components/simulator/GanttChart";
+import type { GanttBlock } from "@/components/simulator/GanttChart";
+import ResultTable from "@/components/simulator/ResultTable";
+import SimulationStats from "@/components/simulator/SimulationStats";
+import { runFcfs } from "./algorithms/fcfs";
+import type { SimulationResult } from "./algorithms/fcfs";
 
 interface Process {
   id: string;
@@ -20,6 +26,8 @@ export default function SimulatePage() {
     { id: crypto.randomUUID(), arrivalTime: "0", burstTime: "5", priority: "1" },
     { id: crypto.randomUUID(), arrivalTime: "1", burstTime: "3", priority: "2" },
   ]);
+
+  const [simulationData, setSimulationData] = useState<SimulationResult | null>(null);
 
   const addProcess = () => {
     setProcesses([
@@ -39,12 +47,18 @@ export default function SimulatePage() {
     );
   };
 
+  const handleRun = () => {
+    if (algorithm === "FCFS") {
+      setSimulationData(runFcfs(processes));
+    }
+  };
+
   return (
     <main className="min-h-screen bg-background p-4 md:p-8 flex flex-col items-center">
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         {/* Configuration Panel */}
-        <div className="lg:col-span-2"></div>
+        <div className="col-span-2"></div>
         <section className="lg:col-span-8 flex flex-col gap-8">
           <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <h2 className="font-display text-3xl font-bold mb-6">Simulation Config</h2>
@@ -100,9 +114,7 @@ export default function SimulatePage() {
                     <ProcessRow
                       key={p.id}
                       process={p}
-                      updateProcess={(id, field, val) =>
-                        updateProcess(id, field as keyof Process, val)
-                      }
+                      updateProcess={(id, field, val) => updateProcess(id, field, val)}
                       removeProcess={removeProcess}
                       isPriorityEnabled={algorithm === "PRIORITY"}
                     />
@@ -114,21 +126,44 @@ export default function SimulatePage() {
 
           <NeobrutalistButton
             className="w-full py-6 text-2xl"
-            onClick={() => alert(`Running ${algorithm} with ${processes.length} processes...`)}
+            onClick={handleRun}
           >
             Run Simulation
           </NeobrutalistButton>
         </section>
 
-        {/* Results Placeholder */}
-        <section className="lg:col-span-12 flex items-center justify-center">
-          <div className="w-full h-full min-h-100 border-4 border-dashed border-black/30 rounded-none flex flex-col items-center justify-center text-center p-8 bg-background/50">
-            <div className="text-6xl mb-4 opacity-20">📊</div>
-            <h3 className="font-display text-2xl font-bold opacity-40">Simulation Results</h3>
-            <p className="font-body text-foreground/40 max-w-sm">
-              Configure your processes and select an algorithm to visualize the scheduling sequence.
-            </p>
-          </div>
+        {/* Visualization Panel */}
+        <section className="lg:col-span-12 flex flex-col gap-8">
+          {!simulationData ? (
+            <div className="w-full h-full min-h-125 border-4 border-dashed border-black/30 rounded-none flex flex-col items-center justify-center text-center p-8 bg-background/50">
+              <div className="text-6xl mb-4 opacity-20">📊</div>
+              <h3 className="font-display text-2xl font-bold opacity-40">Simulation Results</h3>
+              <p className="font-body text-foreground/40 max-w-sm">
+                Configure your processes and select an algorithm to visualize the scheduling sequence.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8 animate-in fade-in zoom-in-95 duration-500">
+              <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <h3 className="font-display text-2xl font-bold mb-6">Gantt Chart</h3>
+                <GanttChart blocks={simulationData.gantt} />
+              </div>
+
+              <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <h3 className="font-display text-2xl font-bold mb-6">Results Table</h3>
+                <ResultTable results={simulationData.results} />
+              </div>
+
+              <div className="border-4 border-black bg-white p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <h3 className="font-display text-2xl font-bold mb-6">General Statistics</h3>
+                <SimulationStats
+                  avgWaiting={simulationData.stats.avgWaiting}
+                  avgTurnaround={simulationData.stats.avgTurnaround}
+                  avgIdle={simulationData.stats.avgIdle}
+                />
+              </div>
+            </div>
+          )}
         </section>
 
       </div>
